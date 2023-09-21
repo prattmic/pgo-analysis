@@ -2,6 +2,13 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+// Binary pgo-analysis parses the JSON output of the Go compiler's
+// `-d=pgodebug=3` flag and summarizes devirtualization of indirect calls.
+//
+// Example:
+//
+//	$ go build -gcflags=all=-d=pgodebug=3 >/tmp/log.txt 2>&1
+//	$ go run github.com/prattmic/pgo-analysis@latest </tmp/log.txt | less
 package main
 
 import (
@@ -19,7 +26,13 @@ import (
 func init() {
 	flag.Usage = func() {
 		fmt.Fprintf(flag.CommandLine.Output(), "Usage of %s:\n\n", os.Args[0])
-		fmt.Fprintf(flag.CommandLine.Output(), "pgo-analysis parses the JSON output of the Go compiler's `-d=pgodebug=3` flag and summarizes devirtualization of indirect calls.\n\n")
+		fmt.Fprintf(flag.CommandLine.Output(), `pgo-analysis parses the JSON output of the Go compiler's
+-d=pgodebug=3 flag and summarizes devirtualization of indirect calls.
+
+Example:
+	$ go build -gcflags=all=-d=pgodebug=3 >/tmp/log.txt 2>&1
+	$ go run github.com/prattmic/pgo-analysis@latest </tmp/log.txt | less
+`)
 		flag.PrintDefaults()
 	}
 }
