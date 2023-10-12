@@ -154,6 +154,10 @@ func run() error {
 			count.indirectFunc++
 			weight.indirectFunc += s.Weight
 			hottestWeight.indirectFunc += s.HottestWeight
+			if s.Devirtualized != "" {
+				devirtualizedCount.indirectFunc++
+				devirtualizedWeight.indirectFunc += s.DevirtualizedWeight
+			}
 		}
 	}
 
@@ -175,8 +179,10 @@ func run() error {
 	fmt.Printf("\tIndirect func: %d (%.2f%% of indirect func)\n", hottestWeight.indirectFunc, pct(hottestWeight.indirectFunc, weight.indirectFunc))
 	fmt.Printf("\tInterface method: %d (%.2f%% of interface method)\n", hottestWeight.indirectMethod, pct(hottestWeight.indirectMethod, weight.indirectMethod))
 
-	fmt.Printf("Devirtualized call count: %d (%.2f%% of total, %.2f%% of interface method)\n", devirtualizedCount.indirectMethod, pct(devirtualizedCount.indirectMethod, count.total()), pct(devirtualizedCount.indirectMethod, count.indirectMethod))
-	fmt.Printf("Devirtualized call weight: %d (%.2f%% of total, %.2f%% of interface method)\n", devirtualizedWeight.indirectMethod, pct(devirtualizedWeight.indirectMethod, weight.total()), pct(devirtualizedWeight.indirectMethod, weight.indirectMethod))
+	fmt.Printf("Devirtualized interface call count: %d (%.2f%% of total, %.2f%% of interface method)\n", devirtualizedCount.indirectMethod, pct(devirtualizedCount.indirectMethod, count.total()), pct(devirtualizedCount.indirectMethod, count.indirectMethod))
+	fmt.Printf("Devirtualized interface call weight: %d (%.2f%% of total, %.2f%% of interface method)\n", devirtualizedWeight.indirectMethod, pct(devirtualizedWeight.indirectMethod, weight.total()), pct(devirtualizedWeight.indirectMethod, weight.indirectMethod))
+	fmt.Printf("Devirtualized function call count: %d (%.2f%% of total, %.2f%% of indirect func)\n", devirtualizedCount.indirectFunc, pct(devirtualizedCount.indirectFunc, count.total()), pct(devirtualizedCount.indirectFunc, count.indirectFunc))
+	fmt.Printf("Devirtualized function call weight: %d (%.2f%% of total, %.2f%% of indirect func)\n", devirtualizedWeight.indirectFunc, pct(devirtualizedWeight.indirectFunc, weight.total()), pct(devirtualizedWeight.indirectFunc, weight.indirectFunc))
 
 	const topCount = 100
 	fmt.Printf("\nTop %d hottest indirect calls:\n", topCount)
